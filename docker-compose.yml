@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: postgres:13.3
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: fl1ckmem0
+      POSTGRES_PASSWORD: fl1ckmem0
+      POSTGRES_DB: flickmemo-db
+    ports:
+      - 5432:5432
