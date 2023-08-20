@@ -4,13 +4,13 @@ Here's some information about Flickmemo's tech stack. This session is being writ
 
 ### Mobile App:
 
- - Flutter;
+ - Flutter.
 
 ### API:
 
   - Ruby (3.2.2);
   - Rails (7.0.7);
-  - Docker, for app and db;
+  - Docker, for API and DB;
   - PostgreSQL;
   - RSpec, for testing;
   - Heroku.

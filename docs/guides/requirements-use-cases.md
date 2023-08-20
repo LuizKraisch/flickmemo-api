@@ -1,13 +1,13 @@
 ## Requirements & Use cases
 
-Here are some information about the Flickmemo's requirements and use cases. This session is being written, so some things may change.
+Here's some information about Flickmemo's requirements and use cases. This session is being written, so some things may change.
 
 ### Use cases
 
-Below there's a use case diagram for the main usages of the aplication:
+Below there's a use case diagram for the main usages of the application:
 
-<p align="center">
-  <img src="https://github.com/LuizKraisch/flickmemo-api/docs/assets/use-case-diagram.png">
+<p align="left">
+  <img width="500" height="600" src="https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/assets/use-case-diagram.png">
 </p>
 
 ### Functional and Non-Functional Requirements
@@ -31,9 +31,9 @@ Here are some requirements that are being used to create the app:
  - Users can see their movie lists in the profile;
 
 #### Non-Functional
- - The mobile app should be easy to use, quick to navigate and simple to exhibit the data;
+ - The mobile app should be easy to use, quick to navigate, and simple to exhibit the data;
  - The mobile app should have loaders and skeletons through all the views;
  - The mobile app should work for both mobile systems (iOS and Android);
  - The mobile app should provide clear and concise instructions for adding movies to a list and writing reviews;
- - The mobile app should adapt to regional content and preferences, such as displaying movie titles and descriptions in the user's preferred language (english and portuguese);
+ - The mobile app should adapt to regional content and preferences, such as displaying movie titles and descriptions in the user's preferred language (English and Portuguese);
  - The API infrastructure should be designed to handle an increasing number of users, movies, and reviews without significant performance degradation.
