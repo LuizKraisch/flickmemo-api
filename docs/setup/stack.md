@@ -10,7 +10,7 @@ Here's some information about Flickmemo's tech stack. This session is being writ
 
   - Ruby (3.2.2);
   - Rails (7.0.7);
-  - Docker, for API and DB;
+  - Docker and `docker-compose`, for API and DB;
   - PostgreSQL;
   - RSpec, for testing;
   - Heroku.

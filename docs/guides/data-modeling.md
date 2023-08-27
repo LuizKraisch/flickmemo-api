@@ -17,3 +17,19 @@ Here you check the container diagram of the app:
 <p align="left">
   <img src="https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/assets/container-diagram.png">
 </p>
+
+### Component diagram
+
+Here you check the component diagram of the app:
+
+<p align="left">
+  <img src="https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/assets/component-diagram.png">
+</p>
+
+### Code diagram
+
+Here you check the code diagram of the app:
+
+<p align="left">
+  <img src="https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/assets/code-diagram.png">
+</p>
