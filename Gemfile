@@ -5,6 +5,8 @@ ruby "3.2.2"
 
 gem "rails", "~> 7.0.7"
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 gem "pg", "~> 1.1"
 
 gem "puma", "~> 5.0"
