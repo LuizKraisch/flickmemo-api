@@ -28,7 +28,7 @@ Here are some requirements that are being used to create the app:
    - A score;
    - A note (including a check for spoilers);
    - A check if the movie is a favorite one.
- - Users can see their movie lists in the profile;
+ - Users can see their movie lists in the profile.
 
 #### Non-Functional
  - The mobile app should be easy to use, quick to navigate, and simple to exhibit the data;

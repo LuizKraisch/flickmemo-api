@@ -18,4 +18,4 @@ Here's a guide to put Flickmemo's API to work:
 
 `docker-compose up -d`
 
-4 - Access the API by the URL: `http://localhost:3000` or use another port that you prefer (remember to configure on DockerFile)
+4 - Access the API by the URL: `http://localhost:3000` or use another port that you prefer (remember to configure on DockerFile).
