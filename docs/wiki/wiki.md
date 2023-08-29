@@ -1,6 +1,6 @@
 # Wiki
 
-Here’s the Flcikmemo’s wiki. You can find some extra information about the project here. 
+Here’s the Flickmemo’s wiki. You can find some extra information about the project here. 
 
 ## Objective
 
