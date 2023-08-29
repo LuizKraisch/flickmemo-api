@@ -4,9 +4,9 @@
 
 ## About the App
 
-Flickmemo is a mobile app that helps to organize the movies that you saw or want to see. It allows users to discover new movies based on their interests, review them or add them to their watchlist. All this is powered by The Movie Database [free API](https://developer.themoviedb.org/docs).
+Flickmemo is a mobile app that helps to organize the movies that you see or want to see. It allows users to discover new movies based on their interests, review them, or add them to their watchlist. All this is powered by The Movie Database [free API](https://developer.themoviedb.org/docs).
 
-Flickmemo provides an intuitive and easy-to-use interface to provide the best experience. The motivation to build it is to have a simple and a quick tool to add movies without having to create accounts in tons of places.
+Flickmemo provides an intuitive and easy-to-use interface to provide the best experience. The motivation to build it is to have a simple and quick tool to add movies without creating accounts in many places.
 
 ## Requirements & Use cases
 
@@ -24,7 +24,7 @@ Check how to make it work in our machine [here](https://github.com/LuizKraisch/f
 
 ## Wiki
 
-To know more about Flickmemo and the project's objective, check [here](https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/wiki/wiki.md)
+To learn more about Flickmemo and the project's objective, check [here](https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/wiki/wiki.md).
 
 ## License
 
