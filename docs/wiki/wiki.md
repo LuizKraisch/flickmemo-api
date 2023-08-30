@@ -4,14 +4,14 @@ Here’s the Flickmemo’s wiki. You can find some extra information about the p
 
 ## Index
 
-* [Objective](#objetive)
+* [Goal](#goal)
 * [Scope](#scope)
 * [Trade-offs](#trade-offs)
 * [Deliverables](#deliverables)
 
-## Objective
+## Goal
 
-Flickmemo’s objective is to provide an easy way to organize movies without creating accounts in many places. All this is powered by TMDB API, which brings the primary information for the views in the Mobile App.
+Flickmemo’s goal is to provide an easy way to organize movies without creating accounts in many places. All this is powered by TMDB API, which brings the primary information for the views in the Mobile App.
 
 ## Scope
 
@@ -93,7 +93,7 @@ The deliverables were made by packages, following the FDD methodology, where eac
 
 Below is a list of the packages that will be delivered, the month of the delivery, and the content of the packages:
 
-### Package 1 - August
+### Package 1 - August/Setember
 
 * Main documentation finished, including:
   * Diagrams based on C4 model;
@@ -105,7 +105,7 @@ Below is a list of the packages that will be delivered, the month of the deliver
   * Structure of the main controllers;
   * External API Service.
 
-### Package 2 - September/October
+### Package 2 - October
 
 * API finished, including:
   * User auth, with Google;
