@@ -15,7 +15,10 @@ Below there's a use case diagram for the main usages of the application:
 Here are some requirements that are being used to create the app:
 
 #### Functional
- - Users can see recommendations of movies based on their profiles;
+ - Users can see recommendations of movies, then:
+   - Add it to their lists;
+   - Review it;
+   - Or simply ignore it.
  - Users can search for movies by their name;
  - Users can view details of the movies, such as:
    - Main images (poster and backgrounds);
