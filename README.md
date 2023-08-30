@@ -3,7 +3,7 @@
 </p>
 
 <img src="https://img.shields.io/badge/status-in_progress-blue?style=for-the-badge"> <img src="https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge">
-
+<br>
 <img src="https://img.shields.io/badge/Ruby_on_Rails-CC0000?style=for-the-badge&logo=ruby-on-rails&logoColor=white">
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white">
 <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
