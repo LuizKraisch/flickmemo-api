@@ -2,6 +2,13 @@
 
 Here’s the Flcikmemo’s wiki. You can find some extra information about the project here. 
 
+## Index
+
+* [Objective](#objetive)
+* [Scope](#scope)
+* [Trade-offs](#trade-offs)
+* [Deliverables](#deliverables)
+
 ## Objetive
 
 Flickmemo’s objective is to provide an easy way to organize movies without creating accounts in many places. All this is powered by TMDB API, which brings the primary information for the views in the Mobile App.
@@ -14,7 +21,7 @@ Movie data is provided from [TMDB API](https://developer.themoviedb.org/referenc
 
 ### **2. Pre-processing and Analysis:**
 
-Using TMDB API  to bring the data requires a cleanup to keep only the necessary data. For that, what is received from the external API will be processed, organized, and then sent to the Mobile App, which will be used for the views.
+Using TMDB API to bring the data requires a cleanup to keep only the necessary data. For that, what is received from the external API will be processed, organized, and then sent to the Mobile App, which will be used for the views.
 
 ### **3. Interface Design:**
 
@@ -48,7 +55,6 @@ To keep Flickmemo running, the project uses Heroku to store the database and API
 
 ## Trade-offs
 
-
 ### 1. Portability:
 
 **Trade-off:** Flickmemo is primarily available as a mobile app, which can limit its accessibility on devices without internet access or those that do not support the supported operating systems.
@@ -78,3 +84,44 @@ To keep Flickmemo running, the project uses Heroku to store the database and API
 **Trade-off:** Continuously maintaining and updating the API and mobile app to fix bugs, add features, and ensure security can be challenging.
 
 **Consideration:** While maintainability is crucial for the platform’s longevity, it may require significant resources that could be directed toward other improvements.
+
+## Deliverables
+
+All the project is managed using Trello, following a Kanban project, with tasks to keep it organized. 
+
+The deliverables were made by packages, following the FDD methodology, where each one adds more content to the project, including documentation, designs, processes, and code.
+
+Below is a list of the packages that will be delivered, the month of the delivery, and the content of the packages:
+
+### Package 1 - August
+
+* Main documentation finished, including:
+  * Diagrams based on C4 model;
+  * README of the project with all sections;
+  * Use cases described.
+* Design of the main pages of the app finished;
+  * Not including prototypes.
+* Basic structure of the API finished, including:
+  * Structure of the main controllers;
+  * External API Service.
+
+### Package 2 - September/October
+
+* API finished, including:
+  * User auth, with Google;
+  * Controllers working;
+  * Unit tests;
+  * CI/CD working.
+* Basic structure of the mobile app finished, including:
+  * Mobile App Flutter repository ready on Github;
+  * Auth section working;
+  * Presentation page ready.
+
+### Package 3 - November/December
+
+* Mobile app finished, including:
+  * All main views working;
+  * User main actions working (e.g., add movie, review);
+  * App available in stores (Google Play initially);
+  * CI/CD working.
+  
