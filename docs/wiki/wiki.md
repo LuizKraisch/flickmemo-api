@@ -1,6 +1,6 @@
 # Wiki
 
-Here’s the Flcikmemo’s wiki. You can find some extra information about the project here. 
+Here’s the Flickmemo’s wiki. You can find some extra information about the project here. 
 
 ## Index
 
@@ -9,7 +9,7 @@ Here’s the Flcikmemo’s wiki. You can find some extra information about the p
 * [Trade-offs](#trade-offs)
 * [Deliverables](#deliverables)
 
-## Objetive
+## Objective
 
 Flickmemo’s objective is to provide an easy way to organize movies without creating accounts in many places. All this is powered by TMDB API, which brings the primary information for the views in the Mobile App.
 
