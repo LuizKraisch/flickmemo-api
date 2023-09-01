@@ -1,4 +1,17 @@
 FactoryBot.define do
+  factory :movie do
+    movie_external_id { "MyString" }
+    score { 1 }
+    note { "MyText" }
+    note_has_spoilers { false }
+    favorite { false }
+  end
+
+  factory :list do
+    user_id { nil }
+    type { "" }
+  end
+
   factory :api_token do
     user { nil }
     active { false }
@@ -6,10 +19,10 @@ FactoryBot.define do
   end
 
   factory :user do
-    
-  end
-
-  factory(:list) do
-    name { Faker::Name.initials }
+    first_name { "MyText" }
+    last_name { "MyText" }
+    email { "MyText" }
+    bio { "MyText" }
+    google_id_token { "MyText" }
   end
 end

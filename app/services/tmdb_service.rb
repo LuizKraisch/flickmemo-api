@@ -2,9 +2,8 @@ require 'uri'
 require 'net/http'
 
 class TMDBService
-  def access_external_api(path, language)
-    binding.pry
-    url = URI(build_tmdb_api_url(path, language))
+  def access_external_api(path, params)
+    url = URI(build_tmdb_api_url(path, params))
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
@@ -18,13 +17,15 @@ class TMDBService
 
   private
 
-  def build_tmdb_api_url(path, language)
-    "#{base_url}#{path}?language=#{language}"
+  def build_tmdb_api_url(path, params)
+    "#{base_url}#{path}?language=en-US&#{params}" # TODO: Use user defined language
   end
 
   def base_url
     'https://api.themoviedb.org/3/'
   end
 
-  def token = ENV['TMDB_API_TOKEN']
+  def token
+    ENV['TMDB_API_TOKEN']
+  end
 end
