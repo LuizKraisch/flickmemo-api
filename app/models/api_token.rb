@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 class ApiToken < ApplicationRecord
   before_create :generate_token
 
+  validates :active, presence: true
   validates :token, presence: true, uniqueness: true
 
-  before_validation :generate_token, on: :create
+  has_one :user
 
   encrypts :token, deterministic: true
 

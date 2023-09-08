@@ -1,27 +1,49 @@
-class Api::V1::BaseController < ActionController::Base
-  rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
+# frozen_string_literal: true
 
-  before_action :authenticate
+module Api
+  module V1
+    class BaseController < ActionController::Base
+      rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
-  attr_reader :current_user
+      before_action :authenticate
 
-  private
+      attr_reader :current_user
 
-  def authenticate
-    authenticate_user_with_token || handle_bad_authentication
-  end
+      private
 
-  def authenticate_user_with_token
-    authenticate_with_http_token do |token, options|
-      ApiToken.where(active: true).find_by_token(token)
+      def authenticate
+        authenticate_user_with_token || handle_bad_authentication
+      end
+
+      def authenticate_user_with_token
+        @api_token = ApiToken.where(active: true, token: user_params[:token])
+
+        return handle_bad_authentication if @api_token.nil?
+
+        return handle_user_not_found if check_user(user_params[:email])
+
+        @current_user = @api_token.user
+      end
+
+      def handle_bad_authentication
+        render json: { message: 'Bad credentials.' }, status: :unauthorized
+      end
+
+      def handle_not_found
+        render json: { message: 'Record not found.' }, status: :not_found
+      end
+
+      def handle_user_not_found
+        render json: { message: 'User not found.' }, status: :not_found
+      end
+
+      def user_params
+        params.require('user').permit(:token, :email)
+      end
+
+      def check_user(email)
+        !@api_token.user.nil? && @api_token.user.email == email
+      end
     end
-  end
-
-  def handle_bad_authentication
-    render json: { message: 'Bad credentials.' }, status: :unauthorized
-  end
-
-  def handle_not_found
-    render json: { message: 'Record not found.' }, status: :not_found
   end
 end

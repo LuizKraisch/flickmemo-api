@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri'
 require 'net/http'
 
@@ -9,8 +11,8 @@ class TMDBService
     http.use_ssl = true
 
     request = Net::HTTP::Get.new(url)
-    request["accept"] = 'application/json'
-    request["Authorization"] = "Bearer #{token}"
+    request['accept'] = 'application/json'
+    request['Authorization'] = "Bearer #{token}"
 
     http.request(request)
   end
@@ -26,6 +28,6 @@ class TMDBService
   end
 
   def token
-    ENV['TMDB_API_TOKEN']
+    ENV.fetch('TMDB_API_TOKEN', nil)
   end
 end
