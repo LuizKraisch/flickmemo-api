@@ -3,6 +3,26 @@
 module Api
   module V1
     class MoviesController < Api::V1::BaseController
+      def create
+        @movie = Movie.new(
+          user: @current_user.id,
+          external_id: movie_params.external_id,
+          score: movie_params.score,
+          note: movie_params.score,
+          note_has_spoilers: movie_params.note_has_spoilers,
+          favorite: movie_params.favorite
+        )
+
+        authorize @movie, :create?
+
+        if @movie.save
+          render json: { movie: @movie.to_json, message: 'Review added' }, status: :ok
+        else
+          render json: { message: "Sorry, we couldn't add your review. Please try again" },
+                 status: :internal_server_error
+        end
+      end
+
       def show
         path = "movie/#{params[:id]}"
         data = tmdb_service.access_external_api(path, nil)

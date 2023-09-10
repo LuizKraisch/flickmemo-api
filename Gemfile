@@ -15,6 +15,8 @@ gem 'puma', '~> 5.0'
 
 gem 'jbuilder'
 
+gem 'pundit', '~> 2.3'
+
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'bootsnap', require: false

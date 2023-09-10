@@ -3,6 +3,8 @@
 module Api
   module V1
     class BaseController < ActionController::Base
+      include Pundit::Authorization
+
       rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
       before_action :authenticate
