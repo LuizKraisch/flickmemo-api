@@ -1,4 +1,4 @@
-name: Rails
+name: Rubocop
 on: push
 jobs:
   rubocop:
