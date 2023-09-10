@@ -2,7 +2,8 @@
 
 class User < ApplicationRecord
   has_one :api_token
-  has_many :list
+  has_many :lists
+  has_many :movies, through: :lists
 
   validates :google_user_uid, presence: true
   validates :first_name, presence: true

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace 'v1' do
       resources :users do
         get 'add_review', on: :collection
+        get 'favorite_movies', on: :collection
       end
       resources :movies, only: [:show] do
         get 'discover', on: :collection

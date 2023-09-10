@@ -13,6 +13,14 @@ module Api
                  status: :internal_server_error
         end
       end
+
+      def favorite_movies
+        movies = Movie.joins(list: :user)
+                      .where(users: { id: @current_user.id })
+                      .where(movies: { favorite: true })
+
+        render json: movies, status: :ok
+      end
     end
   end
 end

@@ -3,7 +3,7 @@
 class CreateMovies < ActiveRecord::Migration[7.0]
   def change
     create_table :movies do |t|
-      t.uuid :uuid, default: 'uuid_generate_v4()', null: false
+      t.uuid :uuid, default: 'gen_random_uuid()', null: false
 
       t.string :movie_external_id, null: false
       t.integer :score
