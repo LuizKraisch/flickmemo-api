@@ -30,6 +30,19 @@ module Api
         render json: sanitize_movie(data.read_body)
       end
 
+      def similar_movies
+        path = "movie/#{movie_params[:external_id]}/similar"
+        params = '&page=1'
+
+        data = tmdb_service.access_external_api(path, params)
+
+        render json: sanitize_movie(data.read_body)
+      end
+
+      def review
+        # TODO: Implement
+      end
+
       def discover
         # Check which option is the best.
 
@@ -39,15 +52,6 @@ module Api
         # movie_id = @current_user.favorite_movies.first
         # path = "movie/#{movie_id}/recommendations"
         # params = "&page=1"
-
-        data = tmdb_service.access_external_api(path, params)
-
-        render json: sanitize_movie(data.read_body)
-      end
-
-      def similar_movies
-        path = "movie/#{movie_params[:external_id]}/similar"
-        params = '&page=1'
 
         data = tmdb_service.access_external_api(path, params)
 

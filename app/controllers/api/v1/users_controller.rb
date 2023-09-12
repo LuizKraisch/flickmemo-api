@@ -10,6 +10,14 @@ module Api
 
         render json: movies, status: :ok
       end
+
+      def movies
+        # TODO: Implement
+      end
+
+      def watchlist
+        # TODO: Implement
+      end
     end
   end
 end
