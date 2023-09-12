@@ -10,11 +10,19 @@ class MoviePolicy
 
   class Scope < Scope
     def resolve
-      scope.where(list: { user: user.id })
+      scope.where(list: { user: })
     end
   end
 
   def create?
     user.present?
+  end
+
+  def show?
+    user.present? && user.movies.pluck(:id).include?(movie.id)
+  end
+
+  def update?
+    user.present? && movie.present? && user.movies.pluck(:id).include?(movie.id)
   end
 end
