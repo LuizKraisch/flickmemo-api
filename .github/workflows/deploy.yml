@@ -1,0 +1,28 @@
+name: CD to EC2
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Docker Hub sign in
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: Build Docker image
+        run: docker build -t luizkraisch/flickmemo .
+      - name: Push Docker image
+        run: docker push luizkraisch/flickmemo
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull image from Docker Hub
+        run: docker pull luizkraisch/flickmemo:latest
+      - name: Remove Docker container
+        run: docker rm -f flickmemo
+      - name: Run Docker container
+        run: docker run -d -p 3000:3000 --name flickmemo luizkraisch/flickmemo
