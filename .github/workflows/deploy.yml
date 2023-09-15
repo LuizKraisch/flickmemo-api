@@ -25,4 +25,4 @@ jobs:
       - name: Remove Docker container
         run: docker rm -f flickmemo
       - name: Run Docker container
-        run: docker run -d -p 3000:3000 --name flickmemo luizkraisch/flickmemo
+        run: docker run -d -p 80:80 -e PORT=80 --name flickmemo luizkraisch/flickmemo
