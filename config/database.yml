@@ -1,25 +1,18 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  port: <%= ENV['DATABASE_PORT'] || '5432' %>
+  host: <%= ENV['DATABASE_HOST'] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: flickmemo_api_development
-  #host: db
-  host: localhost
-  port: 5432
-
-  username: fl1ckmem0
-  password: fl1ckmem0
-  database: flickmemo-db
 
 test:
   <<: *default
-  database: flickmemo_api_test
 
 production:
   <<: *default
-  database: flickmemo_api_production
-  username: flickmemo_api
-  password: <%= ENV["FLICKMEMO_API_DATABASE_PASSWORD"] %>

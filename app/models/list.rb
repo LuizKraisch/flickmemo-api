@@ -4,5 +4,5 @@ class List < ApplicationRecord
   belongs_to :user
   has_many :movies
 
-  validate :type, presence: true
+  validates :type, presence: true
 end

@@ -1,18 +1,27 @@
 version: '3.4'
 
 services:
-  api:
-    build: .
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
     ports:
       - "3000:3000"
-    depends_on:
-      - db
-  db:
-    image: postgres:13.3
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
+    env_file: .env
     environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_USER: fl1ckmem0
-      POSTGRES_PASSWORD: fl1ckmem0
-      POSTGRES_DB: flickmemo-db
-    ports:
-      - 5432:5432
+      RAILS_ENV: development
+
+  database:
+    image: postgres:12.1
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  gem_cache:
+  db_data:

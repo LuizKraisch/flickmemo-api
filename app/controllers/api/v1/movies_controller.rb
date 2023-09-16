@@ -78,10 +78,10 @@ module Api
       end
 
       def sanitize_movie(raw_data)
-        raw_data.slice(
-          :adult, :belongs_to_collection, :budget,
-          :homepage, :original_title, :production_companies,
-          :production_countries, :revenue, :video, :vote_count
+        JSON.parse(raw_data).except(
+          'adult', 'belongs_to_collection', 'budget',
+          'homepage', 'original_title', 'production_companies',
+          'production_countries', 'revenue', 'video', 'vote_count'
         )
       end
     end

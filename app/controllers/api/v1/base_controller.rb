@@ -18,9 +18,11 @@ module Api
       end
 
       def authenticate_user_with_token
+        return handle_bad_authentication if params[:user].nil?
+
         @api_token = ApiToken.where(active: true, token: user_params[:token])
 
-        return handle_bad_authentication if @api_token.nil?
+        return handle_bad_authentication if @api_token.nil
 
         return handle_user_not_found if check_user(user_params[:email])
 

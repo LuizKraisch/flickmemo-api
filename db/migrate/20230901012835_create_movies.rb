@@ -6,10 +6,6 @@ class CreateMovies < ActiveRecord::Migration[7.0]
       t.uuid :uuid, default: 'gen_random_uuid()', null: false
 
       t.string :movie_external_id, null: false
-      t.integer :score
-      t.text :note
-      t.boolean :note_has_spoilers, null: false
-      t.boolean :favorite, null: false
 
       t.timestamps
     end
