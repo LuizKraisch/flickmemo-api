@@ -4,5 +4,10 @@ class List < ApplicationRecord
   belongs_to :user
   has_many :movies
 
-  validates :type, presence: true
+  enum list_type: {
+    watched: 'watched',
+    want_to_watch: 'want_to_watch'
+  }
+
+  validates :list_type, presence: true
 end

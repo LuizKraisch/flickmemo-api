@@ -3,7 +3,7 @@
 require 'uri'
 require 'net/http'
 
-class TMDBService
+class MovieService
   def access_external_api(path, params)
     url = URI(build_tmdb_api_url(path, params))
 

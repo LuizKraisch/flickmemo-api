@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_16_022219) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_18_012132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_022219) do
     t.text "token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "lists", force: :cascade do |t|
@@ -28,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_022219) do
     t.string "type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "movies", force: :cascade do |t|
@@ -53,9 +55,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_16_022219) do
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "email", null: false
+    t.string "preferred_language", null: false
     t.string "photo_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "api_token_id"
   end
 
+  add_foreign_key "api_tokens", "users"
+  add_foreign_key "lists", "users"
+  add_foreign_key "users", "api_tokens"
 end

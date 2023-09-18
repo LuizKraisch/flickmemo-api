@@ -16,6 +16,10 @@ module FlickmemoApi
       app.routes_reloader.paths.delete_if { |path| path =~ /actionmailbox/ }
     end
 
+    config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', nil)
+    config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', nil)
+    config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', nil)
+
     config.time_zone = 'UTC'
 
     config.api_only = true

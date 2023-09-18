@@ -4,7 +4,7 @@ class ApiToken < ApplicationRecord
   before_create :generate_token
 
   validates :active, presence: true
-  validates :token, presence: true, uniqueness: true
+  validates :token, uniqueness: true
 
   has_one :user
 

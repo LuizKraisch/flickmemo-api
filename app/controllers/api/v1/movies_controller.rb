@@ -3,82 +3,72 @@
 module Api
   module V1
     class MoviesController < Api::V1::BaseController
-      def create
-        @movie = Movie.new(
-          user: @current_user.id,
-          external_id: movie_params.external_id,
-          score: movie_params.score,
-          note: movie_params.score,
-          note_has_spoilers: movie_params.note_has_spoilers,
-          favorite: movie_params.favorite
-        )
+      def show
+        path = "movie/#{params[:id]}"
+        data = movie_service.access_external_api(path, nil)
 
-        authorize @movie, :create?
-
-        if @movie.save
-          render json: { movie: @movie.to_json, message: 'Review added' }, status: :ok
+        if data
+          render json: sanitize_movie(JSON.parse(data.read_body)), status: :ok
         else
-          render json: { message: "Sorry, we couldn't add your review. Please try again" },
-                 status: :internal_server_error
+          render json: { message: 'Data not available.' }, status: :internal_server_error
         end
       end
 
-      def show
-        path = "movie/#{params[:id]}"
-        data = tmdb_service.access_external_api(path, nil)
-
-        render json: sanitize_movie(data.read_body)
-      end
-
-      def similar_movies
-        path = "movie/#{movie_params[:external_id]}/similar"
+      def similar
+        path = "movie/#{params[:id]}/similar"
         params = '&page=1'
 
-        data = tmdb_service.access_external_api(path, params)
+        data = movie_service.access_external_api(path, params)
 
-        render json: sanitize_movie(data.read_body)
-      end
-
-      def review
-        # TODO: Implement
+        if data
+          render json: sanitize_multiple_movies(data), status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :internal_server_error
+        end
       end
 
       def discover
-        # Check which option is the best.
-
         path = 'discover/movie'
         params = '&page=1&sort_by=vote_average.desc'
 
-        # movie_id = @current_user.favorite_movies.first
-        # path = "movie/#{movie_id}/recommendations"
-        # params = "&page=1"
+        data = movie_service.access_external_api(path, params)
 
-        data = tmdb_service.access_external_api(path, params)
-
-        render json: sanitize_movie(data.read_body)
+        if data
+          render json: sanitize_multiple_movies(data), status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :internal_server_error
+        end
       end
 
       def trending
         path = 'trending/movie/week'
         params = '&page=1'
 
-        data = tmdb_service.access_external_api(path, params)
+        data = movie_service.access_external_api(path, params)
 
-        render json: sanitize_movie(data.read_body)
+        if data
+          render json: sanitize_multiple_movies(data), status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :internal_server_error
+        end
       end
 
       private
 
-      def tmdb_service
-        TMDBService.new
+      def movie_service
+        MovieService.new
       end
 
-      def movie_params
-        params.require('movie').permit(:external_id, :score, :note, :note_has_spoilers, :favorite)
+      def sanitize_multiple_movies(raw_data)
+        movies = []
+        JSON.parse(raw_data.read_body)['results'].each do |movie|
+          movies << sanitize_movie(movie)
+        end
+        movies
       end
 
-      def sanitize_movie(raw_data)
-        JSON.parse(raw_data).except(
+      def sanitize_movie(data)
+        data.except(
           'adult', 'belongs_to_collection', 'budget',
           'homepage', 'original_title', 'production_companies',
           'production_countries', 'revenue', 'video', 'vote_count'

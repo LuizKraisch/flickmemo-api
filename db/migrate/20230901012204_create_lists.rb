@@ -5,7 +5,7 @@ class CreateLists < ActiveRecord::Migration[7.0]
     create_table :lists do |t|
       t.uuid :uuid, default: 'gen_random_uuid()', null: false
 
-      t.string :type, null: false
+      t.string :list_type, null: false
 
       t.timestamps
     end
