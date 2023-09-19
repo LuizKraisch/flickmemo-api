@@ -7,7 +7,7 @@ Here's some information about Flickmemo's requirements and use cases. This sessi
 Below there's a use case diagram for the main usages of the application:
 
 <p align="left">
-  <img width="500" height="600" src="https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/assets/use-case-diagram.png">
+  <img width="500" height="600" src="../assets/use-case-diagram.png">
 </p>
 
 ### Functional and Non-Functional Requirements

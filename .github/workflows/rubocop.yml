@@ -1,42 +1,67 @@
-name: "Rubocop"
+name: Rails
 
-on:
-  push:
-    branches: [ "main", "Default" ]
-  pull_request:
-    branches: [ "main" ]
-  schedule:
-    - cron: '18 12 * * 5'
+on: push
 
 jobs:
   rubocop:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-
+    name: Rubocop
+    runs-on: ubuntu-20.04
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v1
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf
-      with:
-        ruby-version: 3.2.2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
-    - name: Install Code Scanning integration
-      run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
+      - name: Analyze code
+        run: bundle exec rubocop
+  rspec:
+    name: RSpec
+    runs-on: ubuntu-20.04
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:example@localhost:5432/db_test
+      services:
+        postgres:
+          image: postgres:latest
+          ports: [ '5432:5432' ]
+          env:
+            POSTGRES_DB: db_test
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: example
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
 
-    - name: Install dependencies
-      run: bundle install
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
-    - name: Rubocop run
-      run: |
-        bash -c "
-          bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
-          [[ $? -ne 2 ]]
-        "
+      - name: Install postgres client dependencies
+        run: sudo apt-get install libpq-dev
 
-    - name: Upload Sarif output
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: rubocop.sarif
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.20.0
+
+      - name: Yarn package cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('./yarn.lock') }}
+
+      - name: Install Yarn packages
+        run: yarn install --pure-lockfile
+
+      - name: Create database
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+
+      - name: Run tests
+        run: bundle exec rspec spec

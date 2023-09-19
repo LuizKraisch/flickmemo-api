@@ -8,6 +8,4 @@ RUN bundle install
 
 COPY . /app
 
-EXPOSE 3000
-
-CMD ["rails", "server", "-b", "0.0.0.0"]
+ENTRYPOINT ["./entrypoints/docker-entrypoint.sh"]

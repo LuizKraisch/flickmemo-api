@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/assets/github-presentation.png">
+  <img src="docs/assets/github-presentation.png">
 </p>
 
 <img src="https://img.shields.io/badge/status-in_progress-blue?style=for-the-badge"> <img src="https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge">
@@ -31,7 +31,7 @@ Check how to make it work in our machine [here](https://github.com/LuizKraisch/f
 
 ## Wiki
 
-To learn more about Flickmemo and the project's objective, check [here](https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/wiki/wiki.md).
+To learn more about Flickmemo and the project's goal, check [here](https://github.com/LuizKraisch/flickmemo-api/blob/main/docs/wiki/wiki.md).
 
 ## License
 

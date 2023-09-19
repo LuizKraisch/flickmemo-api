@@ -1,27 +1,53 @@
-class Api::V1::BaseController < ActionController::Base
-  rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
+# frozen_string_literal: true
 
-  before_action :authenticate
+module Api
+  module V1
+    class BaseController < ActionController::Base
+      include Pundit::Authorization
 
-  attr_reader :current_user
+      rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
-  private
+      before_action :authenticate
 
-  def authenticate
-    authenticate_user_with_token || handle_bad_authentication
-  end
+      attr_reader :current_user
 
-  def authenticate_user_with_token
-    authenticate_with_http_token do |token, options|
-      ApiToken.where(active: true).find_by_token(token)
+      private
+
+      def authenticate
+        authenticate_user_with_token || handle_bad_authentication
+      end
+
+      def authenticate_user_with_token
+        return handle_bad_authentication if params[:user].nil?
+
+        @api_token = ApiToken.find_by!(active: true, token: user_params[:token])
+
+        return handle_bad_authentication if @api_token.nil?
+
+        return handle_user_not_found unless check_user(user_params[:google_user_uid])
+
+        @current_user = @api_token.user
+      end
+
+      def handle_bad_authentication
+        render json: { message: 'Bad credentials.' }, status: :unauthorized
+      end
+
+      def handle_user_not_found
+        render json: { message: 'User not found.' }, status: :not_found
+      end
+
+      def handle_not_found
+        render json: { message: 'Record not found.' }, status: :not_found
+      end
+
+      def user_params
+        params.require('user').permit(:token, :google_user_uid)
+      end
+
+      def check_user(google_user_uid)
+        @api_token.user.present? && @api_token.user.google_user_uid == google_user_uid
+      end
     end
-  end
-
-  def handle_bad_authentication
-    render json: { message: 'Bad credentials.' }, status: :unauthorized
-  end
-
-  def handle_not_found
-    render json: { message: 'Record not found.' }, status: :not_found
   end
 end
