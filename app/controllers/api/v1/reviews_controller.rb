@@ -38,7 +38,7 @@ module Api
       end
 
       def review_params
-        params.require('review').permit(:id)
+        params.require('review').permit(:id, :uuid, :score, :note, :note_has_spoilers, :favorite, :user_id, :movie_id)
       end
     end
   end

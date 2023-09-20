@@ -7,14 +7,15 @@ Rails.application.routes.draw do
         get 'access', on: :collection
       end
       resources :users, only: %i[show destroy] do
-        get 'favorites', on: :member
-        get 'movies', on: :member
+        get 'recent', on: :member
         get 'watchlist', on: :member
+        get 'favorites', on: :member
       end
       resources :movies, only: %i[show] do
+        get 'search', on: :collection
+        get 'similar', on: :member
         get 'discover', on: :collection
         get 'trending', on: :collection
-        get 'similar', on: :member
       end
       resources :reviews, except: :index
     end

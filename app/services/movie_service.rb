@@ -17,6 +17,16 @@ class MovieService
     http.request(request)
   end
 
+  def sanitize_multiple_movies(data)
+    return if data.empty?
+
+    movies = []
+    JSON.parse(data.read_body)['results'].each do |movie|
+      movies << sanitize_movie(movie)
+    end
+    movies
+  end
+
   private
 
   def build_tmdb_api_url(path, params)

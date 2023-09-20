@@ -14,6 +14,18 @@ module Api
         end
       end
 
+      def search
+        path = 'search/movie'
+        params = "&query=#{movie_params[:query]}"
+        data = movie_service.access_external_api(path, params)
+
+        if data
+          render json: sanitize_movie(JSON.parse(data.read_body)), status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :internal_server_error
+        end
+      end
+
       def similar
         path = "movie/#{params[:id]}/similar"
         params = '&page=1'
@@ -65,6 +77,10 @@ module Api
           movies << sanitize_movie(movie)
         end
         movies
+      end
+
+      def movie_params
+        params.require('movie').permit(:query)
       end
 
       def sanitize_movie(data)

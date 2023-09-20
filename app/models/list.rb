@@ -2,7 +2,7 @@
 
 class List < ApplicationRecord
   belongs_to :user
-  has_many :movies
+  has_and_belongs_to_many :movies
 
   enum list_type: {
     watched: 'watched',

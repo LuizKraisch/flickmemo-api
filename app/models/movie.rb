@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Movie < ApplicationRecord
-  has_and_belongs_to_many :list
-  has_one :user
+  has_and_belongs_to_many :lists
+  has_many :reviews
 
-  validates :movie_external_id, presence: true
+  validates :external_id, presence: true
 end
+

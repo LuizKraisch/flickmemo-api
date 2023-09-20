@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :movie do
-    movie_external_id { 'MyString' }
+    external_id { 'MyString' }
     score { 1 }
     note { 'MyText' }
     note_has_spoilers { false }

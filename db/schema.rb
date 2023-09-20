@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_18_012132) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_19_014929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -26,17 +26,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_012132) do
 
   create_table "lists", force: :cascade do |t|
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
-    t.string "type", null: false
+    t.string "list_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
   end
 
+  create_table "lists_movies", id: false, force: :cascade do |t|
+    t.bigint "list_id"
+    t.bigint "movie_id"
+    t.index ["list_id", "movie_id"], name: "index_lists_movies_on_list_id_and_movie_id", unique: true
+    t.index ["list_id"], name: "index_lists_movies_on_list_id"
+    t.index ["movie_id"], name: "index_lists_movies_on_movie_id"
+  end
+
   create_table "movies", force: :cascade do |t|
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
-    t.string "movie_external_id", null: false
+    t.string "external_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "list_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -47,6 +56,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_012132) do
     t.boolean "favorite", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "movie_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -64,5 +75,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_012132) do
 
   add_foreign_key "api_tokens", "users"
   add_foreign_key "lists", "users"
+  add_foreign_key "lists_movies", "lists"
+  add_foreign_key "lists_movies", "movies"
+  add_foreign_key "movies", "lists"
+  add_foreign_key "reviews", "movies"
+  add_foreign_key "reviews", "users"
   add_foreign_key "users", "api_tokens"
 end
