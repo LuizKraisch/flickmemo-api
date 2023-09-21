@@ -25,4 +25,9 @@ jobs:
       - name: Remove Docker container
         run: docker rm -f flickmemo
       - name: Run Docker container
-        run: docker run -d -p 80:80 -e PORT=80 -e RAILS_ENV=production --name flickmemo luizkraisch/flickmemo
+        run: |
+          docker run -d -p 80:80 
+          -e PORT=80 -e RAILS_ENV=production 
+          -e DB_NAME='${{ secrets.DB_NAME }}' -e DB_HOST='${{ secrets.DB_HOST }}' \
+          -e DB_PASSWORD='${{ secrets.DB_PASSWORD }}' -e DB_USER='${{ secrets.DB_USER }}' \
+          --name flickmemo luizkraisch/flickmemo
