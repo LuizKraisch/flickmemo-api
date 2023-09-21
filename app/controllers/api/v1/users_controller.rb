@@ -6,11 +6,21 @@ module Api
       before_action :set_user, only: %i[show destroy recent watchlist favorites]
 
       def show
-        render json: sanitize_user(@user.as_json), status: :ok
+        data = sanitize_user(@user.as_json)
+
+        if data
+          render json: data, status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :unprocessable_entity
+        end
       end
 
       def destroy
-        @user.destroy
+        if @user.destroy
+          render json: { message: 'User and token deleted.' }, status: :ok
+        else
+          render json: { message: 'An error occurred.' }, status: :unprocessable_entity
+        end
       end
 
       def recent
@@ -21,10 +31,15 @@ module Api
         data = []
         recent_movies.each do |movie|
           path = "movie/#{movie.external_id}"
-          data << movie_service.access_external_api(path, nil)
+          raw_data = movie_service.access_external_api(path, nil).read_body
+          data << movie_service.sanitize_poster(JSON.parse(raw_data))
         end
 
-        render json: movie_service.sanitize_multiple_movies(data), status: :ok
+        if data
+          render json: data, status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :internal_server_error
+        end
       end
 
       def watchlist
@@ -35,10 +50,15 @@ module Api
         data = []
         watchlist_movies.each do |movie|
           path = "movie/#{movie.external_id}"
-          data << movie_service.access_external_api(path, nil)
+          raw_data = movie_service.access_external_api(path, nil).read_body
+          data << movie_service.sanitize_poster(JSON.parse(raw_data))
         end
 
-        render json: movie_service.sanitize_multiple_movies(data), status: :ok
+        if data
+          render json: data, status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :internal_server_error
+        end
       end
 
       def favorites
@@ -49,10 +69,15 @@ module Api
         data = []
         favorite_movies.each do |movie|
           path = "movie/#{movie.external_id}"
-          data << movie_service.access_external_api(path, nil)
+          raw_data = movie_service.access_external_api(path, nil).read_body
+          data << movie_service.sanitize_poster(JSON.parse(raw_data))
         end
 
-        render json: movie_service.sanitize_multiple_movies(data), status: :ok
+        if data
+          render json: data, status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :internal_server_error
+        end
       end
 
       private

@@ -18,13 +18,32 @@ class MovieService
   end
 
   def sanitize_multiple_movies(data)
-    return if data.empty?
+    return if data.read_body.empty?
 
     movies = []
     JSON.parse(data.read_body)['results'].each do |movie|
       movies << sanitize_movie(movie)
     end
     movies
+  end
+
+  def sanitize_movie(data)
+    data.except(
+      'adult', 'belongs_to_collection', 'budget',
+      'homepage', 'original_title', 'production_companies',
+      'production_countries', 'revenue', 'video', 'vote_count'
+    )
+  end
+
+  def sanitize_poster(data)
+    data.except(
+      'adult', 'belongs_to_collection', 'budget',
+      'homepage', 'original_title', 'production_companies',
+      'production_countries', 'revenue', 'video', 'vote_count',
+      'backdrop_path', 'genres', 'imdb_id', 'original_language',
+      'overview', 'popularity', 'release_date', 'runtime', 'spoken_languages',
+      'status', 'tagline', 'title', 'vote_average'
+    )
   end
 
   private

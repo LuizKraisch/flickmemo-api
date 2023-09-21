@@ -31,4 +31,4 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
-gem "bugsnag", "~> 6.26"
+gem 'bugsnag', '~> 6.26'

@@ -6,16 +6,20 @@ module Api
       before_action :set_review, only: %i[show update destroy]
 
       def show
-        render json: @review, status: :ok
+        if @review
+          render json: @review, status: :ok
+        else
+          render json: { message: 'Data not available.' }, status: :unprocessable_entity
+        end
       end
 
       def create
         @review = Review.new(review_params)
 
         if @review.save
-          render json: @review, location: @review
+          render json: @review, status: :ok
         else
-          render json: @review.errors, status: :unprocessable_entity
+          render json: { message: 'An error occurred.' }, status: :unprocessable_entity
         end
       end
 
@@ -23,12 +27,16 @@ module Api
         if @review.update(review_params)
           render json: @review, status: :ok
         else
-          render json: @review.errors, status: :unprocessable_entity
+          render json: { message: 'An error occurred.' }, status: :unprocessable_entity
         end
       end
 
       def destroy
-        @review.destroy
+        if @review.destroy
+          render json: { message: 'Review deleted.' }, status: :ok
+        else
+          render json: { message: 'An error occurred.' }, status: :unprocessable_entity
+        end
       end
 
       private

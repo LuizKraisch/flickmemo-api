@@ -20,7 +20,7 @@ module Api
       def authenticate_user_with_token
         return handle_bad_authentication if params[:user].nil?
 
-        @api_token = ApiToken.find_by!(active: true, token: user_params[:token])
+        @api_token = ApiToken.find_by(active: true, token: user_params[:token])
 
         return handle_bad_authentication if @api_token.nil?
 
@@ -30,11 +30,11 @@ module Api
       end
 
       def handle_bad_authentication
-        render json: { message: 'Bad credentials.' }, status: :unauthorized
+        render json: { message: 'Bad credentials. Please, check your access.' }, status: :unauthorized
       end
 
       def handle_user_not_found
-        render json: { message: 'User not found.' }, status: :not_found
+        render json: { message: 'User not found. Please, check your access.' }, status: :not_found
       end
 
       def handle_not_found
