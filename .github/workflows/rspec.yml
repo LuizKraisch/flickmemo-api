@@ -31,4 +31,4 @@ jobs:
           bundle exec rails db:migrate
 
       - name: Run tests
-        run: bundle exec rspec
+        run: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT='${{ secrets.ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT }}' bundle exec rspec

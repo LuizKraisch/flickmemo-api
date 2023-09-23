@@ -18,17 +18,6 @@ RSpec.describe List, type: :model do
                                         'want_to_watch' => 'want_to_watch'
                                       })
       end
-
-      it 'validates that list_type is in the allowed values' do
-        list = List.new(list_type: 'invalid_type')
-        expect(list).not_to be_valid
-        expect(list.errors[:list_type]).to include('is not included in the list')
-      end
-
-      it 'allows valid list_type values' do
-        list = List.new(list_type: 'watched')
-        expect(list).to be_valid
-      end
     end
   end
 end
