@@ -10,6 +10,12 @@ RSpec.describe List, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:list_type) }
-    it { is_expected.to define_enum_for(:list_type).with(%i[watched want_to_watch]) }
+
+    it 'list type enum' do
+      is_expected.to define_enum_for(:list_type).with({
+                                                        watched: 'watched',
+                                                        want_to_watch: 'want_to_watch'
+                                                      })
+    end
   end
 end
