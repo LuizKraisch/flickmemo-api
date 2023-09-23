@@ -23,6 +23,8 @@ gem 'bootsnap', require: false
 
 gem 'rubocop', require: false
 
+gem 'bugsnag', '~> 6.26'
+
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
@@ -31,4 +33,6 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
-gem 'bugsnag', '~> 6.26'
+group :test do
+  gem 'shoulda-matchers', '~> 5.0'
+end

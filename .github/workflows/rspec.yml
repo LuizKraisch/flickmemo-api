@@ -1,48 +1,29 @@
 name: Rails
-
-on: push
-
+on: [push]
 jobs:
-  rspec:
+  run-rspec-tests:
     name: RSpec
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres:example@localhost:5432/db_test
-      services:
-        postgres:
-          image: postgres:latest
-          ports: [ '5432:5432' ]
-          env:
-            POSTGRES_DB: db_test
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: example
-          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    services:
+      postgres:
+        image: postgres:latest
+        ports: [ '5432:5432' ]
+        env:
+          POSTGRES_DB: db_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: example
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
 
-      - name: Setup Ruby
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-
-      - name: Install postgres client dependencies
-        run: sudo apt-get install libpq-dev
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.20.0
-
-      - name: Yarn package cache
-        uses: actions/cache@v2
-        with:
-          path: ./node_modules
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('./yarn.lock') }}
-
-      - name: Install Yarn packages
-        run: yarn install --pure-lockfile
 
       - name: Create database
         run: |
@@ -50,4 +31,8 @@ jobs:
           bundle exec rails db:migrate
 
       - name: Run tests
-        run: bundle exec rspec spec
+        run: |
+          ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY='${{ secrets.ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY }}' \
+          ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT='${{ secrets.ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT }}' \
+          ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY='${{ secrets.ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY }}' \
+          bundle exec rspec

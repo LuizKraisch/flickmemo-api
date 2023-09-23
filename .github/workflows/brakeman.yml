@@ -1,5 +1,4 @@
 name: Brakeman
-
 on:
   push:
     branches: [ "main" ]
@@ -7,10 +6,8 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '42 2 * * 4'
-
 permissions:
   contents: read
-
 jobs:
   brakeman-scan:
     permissions:

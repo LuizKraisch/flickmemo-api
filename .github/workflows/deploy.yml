@@ -1,11 +1,10 @@
-name: CD to EC2
-
+name: Deploy to AWS EC2
 on:
   push:
     branches: ["main"]
-
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -17,6 +16,7 @@ jobs:
       - name: Push Docker image
         run: docker push luizkraisch/flickmemo
   deploy:
+    name: Deploy
     needs: build
     runs-on: self-hosted
     steps:
@@ -26,8 +26,12 @@ jobs:
         run: docker rm -f flickmemo
       - name: Run Docker container
         run: |
-          docker run -d -p 80:80 
-          -e PORT=80 -e RAILS_ENV=production 
+          docker run -d -p 80:80 \
+          -e PORT=80 -e RAILS_ENV=production \
           -e DB_NAME='${{ secrets.DB_NAME }}' -e DB_HOST='${{ secrets.DB_HOST }}' \
           -e DB_PASSWORD='${{ secrets.DB_PASSWORD }}' -e DB_USER='${{ secrets.DB_USER }}' \
+          -e ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY='${{ secrets.ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY }}' \
+          -e ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT='${{ secrets.ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT }}' \
+          -e ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY='${{ secrets.ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY }}' \
+          -e TMDB_API_TOKEN='${{ secrets.TMDB_API_TOKEN }}' \
           --name flickmemo luizkraisch/flickmemo

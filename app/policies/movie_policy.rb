@@ -8,7 +8,7 @@ class MoviePolicy
     @movie = movie
   end
 
-  class Scope < Scope
+  class Scope < MoviePolicy
     def resolve
       scope.where(list: { user: })
     end
