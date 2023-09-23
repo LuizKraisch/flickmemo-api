@@ -3,6 +3,8 @@
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
+  config.require_master_key = true
+
   config.cache_classes = true
 
   config.eager_load = true
