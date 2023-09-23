@@ -35,4 +35,5 @@ jobs:
           -e ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY='${{ secrets.ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY }}' \
           -e TMDB_API_TOKEN='${{ secrets.TMDB_API_TOKEN }}' \
           -e SECRET_KEY_BASE='${{ secrets.SECRET_KEY_BASE }}' \
+          -e RAILS_MASTER_KEY='${{ secrets.RAILS_MASTER_KEY }}' \
           --name flickmemo luizkraisch/flickmemo
