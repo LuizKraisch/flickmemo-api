@@ -8,7 +8,7 @@ class ListPolicy
     @list = list
   end
 
-  class Scope < Scope
+  class Scope < ListPolicy
     def resolve
       scope.where(user:)
     end
