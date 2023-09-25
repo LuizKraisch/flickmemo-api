@@ -7,6 +7,8 @@ module Api
 
       rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 
+      rescue_from Pundit::NotAuthorizedError, with: :handle_record_not_authorized
+
       before_action :authenticate
 
       attr_reader :current_user
@@ -39,6 +41,10 @@ module Api
 
       def handle_not_found
         render json: { message: 'Record not found.' }, status: :not_found
+      end
+
+      def handle_record_not_authorized
+        render json: { message: 'Record not authorized. Please, check your access.' }, status: :unauthorized
       end
 
       def user_params

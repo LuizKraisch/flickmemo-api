@@ -15,6 +15,8 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :preferred_language, presence: true
 
+  delegate :token, to: :api_token
+
   private
 
   def create_token

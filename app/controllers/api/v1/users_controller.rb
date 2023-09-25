@@ -6,6 +6,8 @@ module Api
       before_action :set_user, only: %i[show destroy recent watchlist favorites]
 
       def show
+        # authorize @user
+
         data = sanitize_user(@user.as_json)
 
         if data
@@ -16,6 +18,8 @@ module Api
       end
 
       def destroy
+        authorize @user
+
         if @user.destroy
           render json: { message: 'User and token deleted.' }, status: :ok
         else
@@ -87,11 +91,11 @@ module Api
       end
 
       def set_user
-        @user = User.find_by!(uuid: params[:id])
+        @user = policy_scope(User)
       end
 
       def user_params
-        params.fetch(:user, {})
+        params.require('user').permit(:id)
       end
 
       def sanitize_user(data)
