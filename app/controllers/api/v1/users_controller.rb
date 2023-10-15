@@ -8,7 +8,7 @@ module Api
       def show
         # authorize @user
 
-        data = sanitize_user(@user.as_json)
+        data = build_user(@user.as_json)
 
         if data
           render json: data, status: :ok
@@ -28,9 +28,7 @@ module Api
       end
 
       def recent
-        recent_movies = Movie.joins(lists: :user)
-                             .where(users: { id: @user.id })
-                             .where(lists: { list_type: 'watched' })
+        recent_movies = @user.recent_movies
 
         data = []
         recent_movies.each do |movie|
@@ -47,9 +45,7 @@ module Api
       end
 
       def watchlist
-        watchlist_movies = Movie.joins(lists: :user)
-                                .where(users: { id: @user.id })
-                                .where(lists: { list_type: 'watchlist' })
+        watchlist_movies = @user.watchlist_movies
 
         data = []
         watchlist_movies.each do |movie|
@@ -66,9 +62,7 @@ module Api
       end
 
       def favorites
-        favorite_movies = Movie.joins(reviews: :user)
-                               .where(users: { id: @user.id })
-                               .where(reviews: { favorite: true })
+        favorite_movies = @user.favorite_movies
 
         data = []
         favorite_movies.each do |movie|
@@ -91,15 +85,24 @@ module Api
       end
 
       def set_user
-        @user = policy_scope(User)
+        @user = User.find_by(uuid: params[:id])
       end
 
       def user_params
         params.require('user').permit(:id)
       end
 
-      def sanitize_user(data)
-        data.except('id', 'api_token_id', 'updated_at', 'google_user_uid', 'email')
+      def build_user(data)
+        count =
+          {
+            internal_id: @user.uuid,
+            watched_count: @user.recent_movies.count.to_s,
+            favorites_count: @user.favorite_movies.count.to_s,
+            watchlist_count: @user.watchlist_movies.count.to_s
+          }
+
+        final_data = data.merge(count)
+        final_data.except('id', 'uuid', 'api_token_id', 'updated_at', 'google_user_uid', 'email')
       end
     end
   end

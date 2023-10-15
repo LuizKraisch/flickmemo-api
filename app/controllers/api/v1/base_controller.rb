@@ -6,7 +6,7 @@ module Api
       include Pundit::Authorization
 
       rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
-
+      rescue_from ActionController::ParameterMissing, with: :handle_bad_authentication
       rescue_from Pundit::NotAuthorizedError, with: :handle_record_not_authorized
 
       before_action :authenticate
@@ -20,13 +20,16 @@ module Api
       end
 
       def authenticate_user_with_token
-        return handle_bad_authentication if params[:user].nil?
+        access_token = params.require(:accessToken)
+        google_user_id = params.require(:googleUserId)
 
-        @api_token = ApiToken.find_by(active: true, token: user_params[:token])
+        return handle_bad_authentication if access_token.nil?
+
+        @api_token = ApiToken.find_by(active: true, token: access_token)
 
         return handle_bad_authentication if @api_token.nil?
 
-        return handle_user_not_found unless check_user(user_params[:google_user_uid])
+        return handle_user_not_found unless check_user(google_user_id)
 
         @current_user = @api_token.user
       end
@@ -45,10 +48,6 @@ module Api
 
       def handle_record_not_authorized
         render json: { message: 'Record not authorized. Please, check your access.' }, status: :unauthorized
-      end
-
-      def user_params
-        params.require('user').permit(:token, :google_user_uid)
       end
 
       def check_user(google_user_uid)

@@ -10,7 +10,7 @@ class UserPolicy
 
   class Scope < UserPolicy
     def resolve
-      User.find_by!(uuid: @scope.id)
+      User.all
     end
   end
 

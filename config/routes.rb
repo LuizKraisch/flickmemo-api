@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :auth, except: %i[index create show update destroy] do
-        get 'access', on: :collection
+        post 'access', on: :collection
       end
       resources :users, only: %i[show destroy] do
         get 'recent', on: :member

@@ -6,4 +6,15 @@ class Review < ApplicationRecord
 
   validates :note_has_spoilers, presence: true
   validates :favorite, presence: true
+
+  def to_hash
+    {
+      uuid:,
+      score:,
+      note:,
+      note_has_spoilers:,
+      favorite:,
+      created_at:
+    }
+  end
 end
