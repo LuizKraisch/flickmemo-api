@@ -5,7 +5,7 @@ class ReviewService
     return if data.read_body.empty?
 
     reviews = []
-    JSON.parse(data.read_body)['results'].each do |movie|
+    JSON.parse(data.read_body)['results'][0..2].each do |movie|
       reviews << sanitize_review(movie)
     end
     reviews
