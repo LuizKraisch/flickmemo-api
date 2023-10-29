@@ -10,7 +10,7 @@ class ReviewPolicy
 
   class Scope < ReviewPolicy
     def resolve
-      Review.where(user: @user)
+      Review.where(user_id: @user.id)
     end
   end
 

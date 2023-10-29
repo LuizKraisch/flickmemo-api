@@ -17,6 +17,12 @@ module Api
 
       def create
         @review = Review.new(review_params)
+        @review.user_id = @current_user.id
+        @review.movie_id = Movie.find_by(uuid: review_params[:movie_id]).id
+
+        # TODO: Check logic to add to user's watched list
+        # @current_user.lists.where(type: 'watched') << Movie.find_by(uuid: review_params[:movie_id]).id
+
         authorize @review
 
         if @review.save
@@ -53,11 +59,11 @@ module Api
       end
 
       def sanitize_review(data)
-        data.to_json(only: %i[uuid score note note_has_spoilers favorite])
+        data.to_json(only: %i[uuid score note note_has_spoilers favorite created_at])
       end
 
       def review_params
-        params.require(:review).permit(:score, :note, :note_has_spoilers, :favorite, :user_id, :movie_id)
+        params.require(:review).permit(:score, :note, :note_has_spoilers, :favorite, :movie_id, :uuid)
       end
     end
   end

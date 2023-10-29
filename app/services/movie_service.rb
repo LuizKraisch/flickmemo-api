@@ -72,6 +72,9 @@ class MovieService
   end
 
   def sanitize_movie(data)
+    movie = create_or_find(data['id'])
+
+    data['uuid'] = movie.uuid
     data['genres'] = data['genres'].map { |genre| genre['name'] } unless data['genres'].nil?
     unless data['spoken_languages'].nil?
       data['spoken_languages'] = data['spoken_languages'].map do |genre|
