@@ -15,6 +15,26 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :preferred_language, presence: true
 
+  delegate :token, to: :api_token
+
+  def recent_movies
+    Movie.joins(lists: :user)
+         .where(users: { id: })
+         .where(lists: { list_type: 'watched' })
+  end
+
+  def watchlist_movies
+    Movie.joins(lists: :user)
+         .where(users: { id: })
+         .where(lists: { list_type: 'watchlist' })
+  end
+
+  def favorite_movies
+    Movie.joins(reviews: :user)
+         .where(users: { id: })
+         .where(reviews: { favorite: true })
+  end
+
   private
 
   def create_token

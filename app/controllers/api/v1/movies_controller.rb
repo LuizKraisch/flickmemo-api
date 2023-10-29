@@ -8,7 +8,7 @@ module Api
         data = movie_service.access_external_api(path, nil)
 
         if data
-          render json: movie_service.sanitize_movie(JSON.parse(data.read_body)), status: :ok
+          render json: movie_service.build_movie_info(JSON.parse(data.read_body), @current_user), status: :ok
         else
           render json: { message: 'Data not available.' }, status: :unprocessable_entity
         end
@@ -41,7 +41,7 @@ module Api
 
       def discover
         path = 'discover/movie'
-        params = '&page=1&sort_by=vote_average.desc'
+        params = '&page=1'
 
         data = movie_service.access_external_api(path, params)
 

@@ -35,7 +35,8 @@ module Api
 
       def build_user_info
         {
-          internal_id: @current_user.id,
+          internal_id: @current_user.uuid,
+          google_user_uid: @current_user.google_user_uid,
           token: {
             uuid: @api_token.uuid,
             token: @api_token.token
@@ -43,7 +44,8 @@ module Api
           first_name: @current_user.first_name,
           last_name: @current_user.last_name,
           email: @current_user.email,
-          photo_url: @current_user.photo_url
+          photo_url: @current_user.photo_url,
+          created_at: @current_user.created_at
         }
       end
     end
