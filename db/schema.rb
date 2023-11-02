@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_19_014929) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_29_183711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -24,25 +24,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_014929) do
     t.integer "user_id"
   end
 
+  create_table "list_movies", force: :cascade do |t|
+    t.bigint "list_id", null: false
+    t.bigint "movie_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id"], name: "index_list_movies_on_list_id"
+    t.index ["movie_id"], name: "index_list_movies_on_movie_id"
+  end
+
   create_table "lists", force: :cascade do |t|
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.string "title", null: false
     t.string "list_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
   end
 
-  create_table "lists_movies", id: false, force: :cascade do |t|
-    t.bigint "list_id"
-    t.bigint "movie_id"
-    t.index ["list_id", "movie_id"], name: "index_lists_movies_on_list_id_and_movie_id", unique: true
-    t.index ["list_id"], name: "index_lists_movies_on_list_id"
-    t.index ["movie_id"], name: "index_lists_movies_on_movie_id"
-  end
-
   create_table "movies", force: :cascade do |t|
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "external_id", null: false
+    t.string "title", null: false
+    t.string "poster_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "list_id"
@@ -74,9 +78,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_014929) do
   end
 
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "list_movies", "lists"
+  add_foreign_key "list_movies", "movies"
   add_foreign_key "lists", "users"
-  add_foreign_key "lists_movies", "lists"
-  add_foreign_key "lists_movies", "movies"
   add_foreign_key "movies", "lists"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"

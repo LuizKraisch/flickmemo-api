@@ -10,8 +10,6 @@ class AddForeignKeys < ActiveRecord::Migration[7.0]
     add_column :reviews, :user_id, :integer
     add_column :reviews, :movie_id, :integer
 
-    add_column :movies, :list_id, :integer
-
     add_foreign_key :api_tokens, :users, column: :user_id
     add_foreign_key :users, :api_tokens, column: :api_token_id
 
@@ -19,7 +17,5 @@ class AddForeignKeys < ActiveRecord::Migration[7.0]
 
     add_foreign_key :reviews, :users, column: :user_id
     add_foreign_key :reviews, :movies, column: :movie_id
-
-    add_foreign_key :movies, :lists, column: :list_id
   end
 end

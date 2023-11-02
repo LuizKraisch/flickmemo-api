@@ -6,6 +6,8 @@ class CreateMovies < ActiveRecord::Migration[7.0]
       t.uuid :uuid, default: 'gen_random_uuid()', null: false
 
       t.string :external_id, null: false
+      t.string :title, null: false
+      t.string :poster_path
 
       t.timestamps
     end

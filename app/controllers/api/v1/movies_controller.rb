@@ -72,7 +72,7 @@ module Api
       end
 
       def movie_params
-        params.require('movie').permit(:query)
+        params.permit(:query)
       end
     end
   end

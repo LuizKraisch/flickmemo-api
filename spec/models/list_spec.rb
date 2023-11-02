@@ -9,6 +9,7 @@ RSpec.describe List, type: :model do
   end
 
   describe 'validations' do
+    it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:list_type) }
 
     context 'list type enum' do

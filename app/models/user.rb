@@ -18,21 +18,27 @@ class User < ApplicationRecord
   delegate :token, to: :api_token
 
   def recent_movies
-    Movie.joins(lists: :user)
-         .where(users: { id: })
-         .where(lists: { list_type: 'watched' })
+    watched_list = lists.find_by(list_type: 'watched')
+
+    return [] if watched_list.nil?
+
+    watched_list.movies.order(created_at: :desc)
   end
 
   def watchlist_movies
-    Movie.joins(lists: :user)
-         .where(users: { id: })
-         .where(lists: { list_type: 'watchlist' })
+    watchlist = lists.find_by(list_type: 'watchlist')
+
+    return [] if watchlist.nil?
+
+    watchlist.movies.order(created_at: :desc)
   end
 
   def favorite_movies
-    Movie.joins(reviews: :user)
-         .where(users: { id: })
-         .where(reviews: { favorite: true })
+    favorite_reviews = reviews.where(favorite: true)
+
+    return [] if favorite_reviews.nil?
+
+    favorite_reviews.map(&:movie)
   end
 
   private

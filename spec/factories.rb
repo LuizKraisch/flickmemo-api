@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  factory :list_movie do
+    list { nil }
+    movie { nil }
+  end
+
   factory :movie do
     external_id { 'MyString' }
     score { 1 }

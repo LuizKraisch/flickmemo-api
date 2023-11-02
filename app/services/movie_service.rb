@@ -20,34 +20,34 @@ class MovieService
   def build_movie_info(movie, user)
     {
       data: sanitize_movie(movie),
-      user_review: find_user_review(movie['id'], user.id),
-      tmdb_reviews: find_tmdb_reviews(movie['id']),
-      similar: find_similar_movies(movie['id'])
+      user_review: find_user_review(movie, user.id),
+      tmdb_reviews: find_tmdb_reviews(movie),
+      similar: find_similar_movies(movie)
     }
   end
 
-  def create_or_find(movie_id)
-    movie = Movie.find_by(external_id: movie_id) \
+  def create_or_find(movie)
+    internal_movie = Movie.find_by(external_id: movie['id'])
 
-    return movie unless movie.nil?
+    return internal_movie unless internal_movie.nil?
 
-    Movie.create(external_id: movie_id)
+    Movie.create(external_id: movie['id'], title: movie['title'], poster_path: movie['poster_path'])
   end
 
-  def find_user_review(movie_id, user_id)
-    movie = create_or_find(movie_id)
+  def find_user_review(movie, user_id)
+    movie = create_or_find(movie)
     review = movie.reviews.where(user_id:).first
 
     review&.to_hash
   end
 
-  def find_tmdb_reviews(movie_id)
-    movie = create_or_find(movie_id)
+  def find_tmdb_reviews(movie)
+    movie = create_or_find(movie)
     movie.find_tmdb_reviews
   end
 
-  def find_similar_movies(movie_id)
-    movie = create_or_find(movie_id)
+  def find_similar_movies(movie)
+    movie = create_or_find(movie)
     movie.find_similar_movies
   end
 
@@ -72,7 +72,7 @@ class MovieService
   end
 
   def sanitize_movie(data)
-    movie = create_or_find(data['id'])
+    movie = create_or_find(data)
 
     data['uuid'] = movie.uuid
     data['genres'] = data['genres'].map { |genre| genre['name'] } unless data['genres'].nil?
