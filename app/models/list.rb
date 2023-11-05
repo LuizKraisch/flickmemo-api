@@ -7,7 +7,7 @@ class List < ApplicationRecord
 
   enum list_type: {
     watched: 'watched',
-    want_to_watch: 'want_to_watch'
+    watchlist: 'watchlist'
   }
 
   validates :title, presence: true

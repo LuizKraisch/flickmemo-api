@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe List, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
-    it { is_expected.to have_and_belong_to_many(:movies) }
+    it { is_expected.to have_many(:movies).through(:list_movies) }
   end
 
   describe 'validations' do
@@ -16,7 +16,7 @@ RSpec.describe List, type: :model do
       it 'defines the list_type enum with the expected values' do
         expect(List.list_types).to eq({
                                         'watched' => 'watched',
-                                        'want_to_watch' => 'want_to_watch'
+                                        'watchlist' => 'watchlist'
                                       })
       end
     end

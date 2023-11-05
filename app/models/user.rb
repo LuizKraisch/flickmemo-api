@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :reviews
   has_many :movies, through: :reviews
 
-  after_create :create_token
+  after_create :create_token, :create_lists
   before_destroy :destroy_token
 
   validates :google_user_uid, presence: true
@@ -47,6 +47,11 @@ class User < ApplicationRecord
     api_token = ApiToken.create(user_id: id, active: true)
     self.api_token_id = api_token.id
     save
+  end
+
+  def create_lists
+    List.create(title: 'Watchlist', list_type: :watchlist, user_id: id)
+    List.create(title: 'Watched', list_type: :watched, user_id: id)
   end
 
   def destroy_token
