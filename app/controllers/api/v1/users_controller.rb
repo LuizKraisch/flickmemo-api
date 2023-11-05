@@ -78,6 +78,16 @@ module Api
         end
       end
 
+      def add_to_watchlist
+        movie = Movie.find_by(uuid: review_params[:movie_id])
+
+        if @current_user.lists.find_by(list_type: 'watched').movies << movie
+          render json: { message: 'Movie added to watchlist.' }, status: :ok
+        else
+          render json: { message: 'An error occurred.' }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def movie_service

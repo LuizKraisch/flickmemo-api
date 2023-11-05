@@ -16,12 +16,13 @@ module Api
       end
 
       def create
+        movie = Movie.find_by(uuid: review_params[:movie_id])
+
         @review = Review.new(review_params)
         @review.user_id = @current_user.id
-        @review.movie_id = Movie.find_by(uuid: review_params[:movie_id]).id
+        @review.movie_id = movie.id
 
-        # TODO: Check logic to add to user's watched list
-        # @current_user.lists.where(type: 'watched') << Movie.find_by(uuid: review_params[:movie_id]).id
+        @current_user.lists.find_by(list_type: 'watched').movies << movie
 
         authorize @review
 

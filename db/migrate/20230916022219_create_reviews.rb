@@ -7,8 +7,8 @@ class CreateReviews < ActiveRecord::Migration[7.0]
 
       t.integer :score
       t.text :note
-      t.boolean :note_has_spoilers, null: false
-      t.boolean :favorite, null: false
+      t.boolean :note_has_spoilers, null: false, default: false
+      t.boolean :favorite, null: false, default: false
 
       t.timestamps
     end

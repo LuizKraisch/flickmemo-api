@@ -49,15 +49,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_29_183711) do
     t.string "poster_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "list_id"
   end
 
   create_table "reviews", force: :cascade do |t|
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.integer "score"
     t.text "note"
-    t.boolean "note_has_spoilers", null: false
-    t.boolean "favorite", null: false
+    t.boolean "note_has_spoilers", default: false, null: false
+    t.boolean "favorite", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
@@ -81,7 +80,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_29_183711) do
   add_foreign_key "list_movies", "lists"
   add_foreign_key "list_movies", "movies"
   add_foreign_key "lists", "users"
-  add_foreign_key "movies", "lists"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"
   add_foreign_key "users", "api_tokens"
