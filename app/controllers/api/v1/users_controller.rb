@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < Api::V1::BaseController
-      before_action :set_user, only: %i[show destroy recent watchlist favorites]
+      before_action :set_user, only: %i[show destroy recent watchlist favorites add_to_watchlist remove_from_watchlist]
 
       def show
         # authorize @user
@@ -79,12 +79,27 @@ module Api
       end
 
       def add_to_watchlist
-        movie = Movie.find_by(uuid: review_params[:movie_id])
+        movie = Movie.find_by!(uuid: user_params[:movieId])
 
-        if @current_user.lists.find_by(list_type: 'watched').movies << movie
+        if @user.lists.find_by(list_type: 'watched').movies << movie
           render json: { message: 'Movie added to watchlist.' }, status: :ok
         else
-          render json: { message: 'An error occurred.' }, status: :unprocessable_entity
+          render json: { message: 'An error occurred.' }, status: :ok
+        end
+      end
+
+      def remove_from_watchlist
+        movie = Movie.find_by!(uuid: user_params[:movieId])
+        watched_list = @user.lists.find_by(list_type: 'watched')
+
+        if movie && watched_list
+          if watched_list.movies.destroy(movie)
+            render json: { message: 'Movie removed from watchlist.' }, status: :ok
+          else
+            render json: { message: 'An error occurred while removing the movie.' }, status: :unprocessable_entity
+          end
+        else
+          render json: { message: 'Movie or watched list not found.' }, status: :not_found
         end
       end
 
@@ -95,11 +110,11 @@ module Api
       end
 
       def set_user
-        @user = User.find_by(uuid: params[:id])
+        @user = User.find_by!(uuid: params[:id])
       end
 
       def user_params
-        params.require('user').permit(:id)
+        params.permit(:id, :movieId)
       end
 
       def build_user(data)

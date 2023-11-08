@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         get 'watchlist', on: :member
         get 'favorites', on: :member
         get 'add_to_watchlist', on: :member
+        get 'remove_from_watchlist', on: :member
       end
       resources :movies, only: %i[show] do
         get 'search', on: :collection
