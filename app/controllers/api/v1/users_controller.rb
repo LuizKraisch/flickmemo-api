@@ -28,10 +28,10 @@ module Api
       end
 
       def recent
-        recent_movies = @user.recent_movies
+        movies = @user.recent_movies + @user.watchlist_movies
 
         data = []
-        recent_movies.each do |movie|
+        movies.each do |movie|
           path = "movie/#{movie.external_id}"
           raw_data = movie_service.access_external_api(path, nil).read_body
           data << movie_service.sanitize_poster(JSON.parse(raw_data))
@@ -79,7 +79,7 @@ module Api
       end
 
       def add_to_watchlist
-        movie = Movie.find_by!(uuid: user_params[:movieId])
+        movie = Movie.find_by!(external_id: user_params[:movieId])
         watchlist = @user.lists.find_by(list_type: 'watchlist')
 
         if watchlist.movies.include?(movie)
@@ -92,7 +92,7 @@ module Api
       end
 
       def remove_from_watchlist
-        movie = Movie.find_by!(uuid: user_params[:movieId])
+        movie = Movie.find_by!(external_id: user_params[:movieId])
         watched_list = @user.lists.find_by(list_type: 'watchlist')
 
         if movie && watched_list

@@ -20,7 +20,8 @@ class MovieService
   def build_movie_info(movie, user)
     {
       data: sanitize_movie(movie),
-      user_review: find_user_review(movie, user.id),
+      added_to_user_watchlist: find_in_watchlist(movie, user),
+      user_review: find_user_review(movie, user),
       tmdb_reviews: find_tmdb_reviews(movie),
       similar: find_similar_movies(movie)
     }
@@ -34,9 +35,15 @@ class MovieService
     Movie.create(external_id: movie['id'], title: movie['title'], poster_path: movie['poster_path'])
   end
 
-  def find_user_review(movie, user_id)
+  def find_in_watchlist(movie, user)
     movie = create_or_find(movie)
-    review = movie.reviews.where(user_id:).first
+    watchlist = user.lists.find_by(list_type: 'watchlist')
+    watchlist.movies.include?(movie)
+  end
+
+  def find_user_review(movie, user)
+    movie = create_or_find(movie)
+    review = movie.reviews.where(user:).first
 
     review&.to_hash
   end
