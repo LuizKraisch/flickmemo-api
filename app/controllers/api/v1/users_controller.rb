@@ -80,17 +80,20 @@ module Api
 
       def add_to_watchlist
         movie = Movie.find_by!(uuid: user_params[:movieId])
+        watchlist = @user.lists.find_by(list_type: 'watchlist')
 
-        if @user.lists.find_by(list_type: 'watched').movies << movie
+        if watchlist.movies.include?(movie)
+          render json: { message: 'Movie is already on the watchlist.' }, status: :conflict
+        elsif watchlist.movies << movie
           render json: { message: 'Movie added to watchlist.' }, status: :ok
         else
-          render json: { message: 'An error occurred.' }, status: :ok
+          render json: { message: 'Movie or watched list not found.' }, status: :not_found
         end
       end
 
       def remove_from_watchlist
         movie = Movie.find_by!(uuid: user_params[:movieId])
-        watched_list = @user.lists.find_by(list_type: 'watched')
+        watched_list = @user.lists.find_by(list_type: 'watchlist')
 
         if movie && watched_list
           if watched_list.movies.destroy(movie)
