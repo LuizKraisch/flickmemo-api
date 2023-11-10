@@ -9,6 +9,11 @@ class User < ApplicationRecord
   after_create :create_token, :create_lists
   before_destroy :destroy_token
 
+  enum preferred_language: {
+    'en-US': 'en-US',
+    'pt-BR': 'pt-BR'
+  }
+
   validates :google_user_uid, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true

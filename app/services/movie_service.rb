@@ -4,8 +4,8 @@ require 'uri'
 require 'net/http'
 
 class MovieService
-  def access_external_api(path, params)
-    url = URI(build_tmdb_api_url(path, params))
+  def access_external_api(path, params, language)
+    url = URI(build_tmdb_api_url(path, params, language))
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
@@ -22,8 +22,8 @@ class MovieService
       data: sanitize_movie(movie),
       added_to_user_watchlist: find_in_watchlist(movie, user),
       user_review: find_user_review(movie, user),
-      tmdb_reviews: find_tmdb_reviews(movie),
-      similar: find_similar_movies(movie)
+      tmdb_reviews: find_tmdb_reviews(movie, user),
+      similar: find_similar_movies(movie, user)
     }
   end
 
@@ -48,14 +48,14 @@ class MovieService
     review&.to_hash
   end
 
-  def find_tmdb_reviews(movie)
+  def find_tmdb_reviews(movie, user)
     movie = create_or_find(movie)
-    movie.find_tmdb_reviews
+    movie.find_tmdb_reviews(user.preferred_language)
   end
 
-  def find_similar_movies(movie)
+  def find_similar_movies(movie, user)
     movie = create_or_find(movie)
-    movie.find_similar_movies
+    movie.find_similar_movies(user.preferred_language)
   end
 
   def sanitize_multiple_movies(data)
@@ -109,8 +109,8 @@ class MovieService
 
   private
 
-  def build_tmdb_api_url(path, params)
-    "#{base_url}#{path}?language=en-US&#{params}" # TODO: Use user defined language
+  def build_tmdb_api_url(path, params, language)
+    "#{base_url}#{path}?language=#{language}&#{params}"
   end
 
   def base_url

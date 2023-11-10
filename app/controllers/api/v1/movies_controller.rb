@@ -5,7 +5,7 @@ module Api
     class MoviesController < Api::V1::BaseController
       def show
         path = "movie/#{params[:id]}"
-        data = movie_service.access_external_api(path, nil)
+        data = movie_service.access_external_api(path, nil, @current_user.preferred_language)
 
         if data
           render json: movie_service.build_movie_info(JSON.parse(data.read_body), @current_user), status: :ok
@@ -17,7 +17,7 @@ module Api
       def search
         path = 'search/movie'
         params = "&query=#{movie_params[:query]}"
-        data = movie_service.access_external_api(path, params)
+        data = movie_service.access_external_api(path, params, @current_user.preferred_language)
 
         if data
           render json: movie_service.sanitize_movie(JSON.parse(data.read_body)), status: :ok
@@ -30,7 +30,7 @@ module Api
         path = "movie/#{params[:id]}/similar"
         params = '&page=1'
 
-        data = movie_service.access_external_api(path, params)
+        data = movie_service.access_external_api(path, params, @current_user.preferred_language)
 
         if data
           render json: movie_service.sanitize_multiple_movies(data), status: :ok
@@ -43,7 +43,7 @@ module Api
         path = 'discover/movie'
         params = '&page=1'
 
-        data = movie_service.access_external_api(path, params)
+        data = movie_service.access_external_api(path, params, @current_user.preferred_language)
 
         if data
           render json: movie_service.sanitize_multiple_movies(data), status: :ok
@@ -56,7 +56,7 @@ module Api
         path = 'trending/movie/week'
         params = '&page=1'
 
-        data = movie_service.access_external_api(path, params)
+        data = movie_service.access_external_api(path, params, @current_user.preferred_language)
 
         if data
           render json: movie_service.sanitize_multiple_movies(data), status: :ok

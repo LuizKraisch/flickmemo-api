@@ -33,7 +33,7 @@ module Api
         data = []
         movies.each do |movie|
           path = "movie/#{movie.external_id}"
-          raw_data = movie_service.access_external_api(path, nil).read_body
+          raw_data = movie_service.access_external_api(path, nil, @user.preferred_language).read_body
           data << movie_service.sanitize_poster(JSON.parse(raw_data))
         end
 
@@ -50,7 +50,7 @@ module Api
         data = []
         watchlist_movies.each do |movie|
           path = "movie/#{movie.external_id}"
-          raw_data = movie_service.access_external_api(path, nil).read_body
+          raw_data = movie_service.access_external_api(path, nil, @user.preferred_language).read_body
           data << movie_service.sanitize_poster(JSON.parse(raw_data))
         end
 
@@ -67,7 +67,7 @@ module Api
         data = []
         favorite_movies.each do |movie|
           path = "movie/#{movie.external_id}"
-          raw_data = movie_service.access_external_api(path, nil).read_body
+          raw_data = movie_service.access_external_api(path, nil, @user.preferred_language).read_body
           data << movie_service.sanitize_poster(JSON.parse(raw_data))
         end
 
