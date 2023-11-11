@@ -16,7 +16,7 @@ module Api
       end
 
       def create
-        movie = Movie.find_by(uuid: review_params[:movie_id])
+        movie = Movie.find_by(external_id: review_params[:movie_id])
 
         @review = Review.new(review_params)
         @review.user_id = @current_user.id
