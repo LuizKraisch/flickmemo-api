@@ -28,7 +28,7 @@ module Api
       end
 
       def recent
-        movies = @user.recent_movies + @user.watchlist_movies
+        movies = @user.recent_movies
 
         data = []
         movies.each do |movie|
