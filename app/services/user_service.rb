@@ -13,7 +13,7 @@ class UserService
         first_name:,
         last_name:,
         photo_url: data[:photo_url] || nil,
-        preferred_language: 'en-us'
+        preferred_language: 'pt-BR'
       )
     else
       @user
