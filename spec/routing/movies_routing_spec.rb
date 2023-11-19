@@ -23,5 +23,13 @@ RSpec.describe Api::V1::MoviesController, type: :routing do
     it 'route to #trending' do
       expect(get: 'api/v1/movies/trending').to route_to('api/v1/movies#trending')
     end
+
+    it 'route to #add_to_watchlist' do
+      expect(get: 'api/v1/movies/add_to_watchlist').to route_to('api/v1/movies#add_to_watchlist')
+    end
+
+    it 'route to #remove_from_watchlist' do
+      expect(get: 'api/v1/movies/remove_from_watchlist').to route_to('api/v1/movies#remove_from_watchlist')
+    end
   end
 end

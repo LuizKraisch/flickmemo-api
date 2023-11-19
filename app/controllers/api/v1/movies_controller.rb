@@ -3,6 +3,8 @@
 module Api
   module V1
     class MoviesController < Api::V1::BaseController
+      before_action :set_movie, only: %i[add_to_watchlist remove_from_watchlist]
+
       def show
         path = "movie/#{params[:id]}"
         data = movie_service.access_external_api(path, nil, @current_user.preferred_language)
@@ -65,14 +67,44 @@ module Api
         end
       end
 
+      def add_to_watchlist
+        watchlist = @current_user.lists.find_by(list_type: 'watchlist')
+
+        if watchlist.movies.include?(@movie)
+          render json: { message: 'Movie is already on the watchlist.' }, status: :conflict
+        elsif watchlist.movies << @movie
+          render json: { message: 'Movie added to watchlist.' }, status: :ok
+        else
+          render json: { message: 'Movie or watchlist not found.' }, status: :not_found
+        end
+      end
+
+      def remove_from_watchlist
+        watched_list = @current_user.lists.find_by(list_type: 'watchlist')
+
+        if @movie && watched_list
+          if watched_list.movies.destroy(@movie)
+            render json: { message: 'Movie removed from watchlist.' }, status: :ok
+          else
+            render json: { message: 'An error occurred while removing the movie.' }, status: :unprocessable_entity
+          end
+        else
+          render json: { message: 'Movie or watchlist not found.' }, status: :not_found
+        end
+      end
+
       private
+
+      def set_movie
+        @movie = Movie.find_by!(external_id: movie_params[:movieId])
+      end
 
       def movie_service
         MovieService.new
       end
 
       def movie_params
-        params.permit(:query)
+        params.permit(:query, :movieId)
       end
     end
   end

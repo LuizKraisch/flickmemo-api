@@ -3,11 +3,9 @@
 module Api
   module V1
     class UsersController < Api::V1::BaseController
-      before_action :set_user, only: %i[show destroy recent watchlist favorites add_to_watchlist remove_from_watchlist]
+      before_action :set_user, only: %i[show destroy recent watchlist favorites]
 
       def show
-        # authorize @user
-
         data = build_user(@user.as_json)
 
         if data
@@ -75,34 +73,6 @@ module Api
           render json: data, status: :ok
         else
           render json: { message: 'Data not available.' }, status: :internal_server_error
-        end
-      end
-
-      def add_to_watchlist
-        movie = Movie.find_by!(external_id: user_params[:movieId])
-        watchlist = @user.lists.find_by(list_type: 'watchlist')
-
-        if watchlist.movies.include?(movie)
-          render json: { message: 'Movie is already on the watchlist.' }, status: :conflict
-        elsif watchlist.movies << movie
-          render json: { message: 'Movie added to watchlist.' }, status: :ok
-        else
-          render json: { message: 'Movie or watched list not found.' }, status: :not_found
-        end
-      end
-
-      def remove_from_watchlist
-        movie = Movie.find_by!(external_id: user_params[:movieId])
-        watched_list = @user.lists.find_by(list_type: 'watchlist')
-
-        if movie && watched_list
-          if watched_list.movies.destroy(movie)
-            render json: { message: 'Movie removed from watchlist.' }, status: :ok
-          else
-            render json: { message: 'An error occurred while removing the movie.' }, status: :unprocessable_entity
-          end
-        else
-          render json: { message: 'Movie or watched list not found.' }, status: :not_found
         end
       end
 

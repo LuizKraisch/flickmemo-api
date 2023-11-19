@@ -10,14 +10,14 @@ Rails.application.routes.draw do
         get 'recent', on: :member
         get 'watchlist', on: :member
         get 'favorites', on: :member
-        get 'add_to_watchlist', on: :member
-        get 'remove_from_watchlist', on: :member
       end
       resources :movies, only: %i[show] do
         get 'search', on: :collection
         get 'similar', on: :member
         get 'discover', on: :collection
         get 'trending', on: :collection
+        get 'add_to_watchlist', on: :collection
+        get 'remove_from_watchlist', on: :collection
       end
       resources :reviews, except: :index
     end
