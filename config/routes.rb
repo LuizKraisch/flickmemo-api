@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       resources :auth, except: %i[index create show update destroy] do
         post 'access', on: :collection
       end
-      resources :users, only: %i[show destroy] do
+      resources :users, only: %i[show update destroy] do
         get 'recent', on: :member
         get 'watchlist', on: :member
         get 'favorites', on: :member

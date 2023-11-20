@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < Api::V1::BaseController
-      before_action :set_user, only: %i[show destroy recent watchlist favorites]
+      before_action :set_user, only: %i[show update destroy recent watchlist favorites]
 
       def show
         data = build_user(@user.as_json)
@@ -12,6 +12,16 @@ module Api
           render json: data, status: :ok
         else
           render json: { message: 'Data not available.' }, status: :unprocessable_entity
+        end
+      end
+
+      def update
+        authorize @user
+
+        if @user.update(user_params)
+          render json: { message: 'User updated.', user: @user.to_json }, status: :ok
+        else
+          render json: { message: 'An error occurred.' }, status: :unprocessable_entity
         end
       end
 
@@ -87,7 +97,7 @@ module Api
       end
 
       def user_params
-        params.permit(:id, :movieId)
+        params.require('user').permit(:id, :first_name, :last_name, :email, :preferred_language)
       end
 
       def build_user(data)
