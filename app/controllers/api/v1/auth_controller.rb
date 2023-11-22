@@ -35,7 +35,7 @@ module Api
 
       def build_user_info
         {
-          internal_id: @current_user.uuid,
+          internal_id: @current_user.reload.uuid,
           google_user_uid: @current_user.google_user_uid,
           token: {
             uuid: @api_token.uuid,
