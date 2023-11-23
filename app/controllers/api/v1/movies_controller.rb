@@ -43,7 +43,7 @@ module Api
 
       def discover
         path = 'discover/movie'
-        params = '&page=1'
+        params = "&page=#{random_page}&release_date.gte=2009-01-01&release_date.lte=2099-01-01&sort_by=#{random_sort}"
 
         data = movie_service.access_external_api(path, params, @current_user.preferred_language)
 
@@ -105,6 +105,14 @@ module Api
 
       def movie_params
         params.permit(:query, :movieId)
+      end
+
+      def random_page = rand(1..10)
+
+      def random_sort
+        options = %w[popularity.desc primary_release_date.desc vote_average.desc vote_count.desc]
+
+        options.sample
       end
     end
   end
