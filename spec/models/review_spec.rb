@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe ListMovie, type: :model do
+RSpec.describe Review, type: :model do
   describe 'associations' do
-    it { is_expected.to belong_to(:list) }
     it { is_expected.to belong_to(:movie) }
+    it { is_expected.to belong_to(:user) }
   end
 end
