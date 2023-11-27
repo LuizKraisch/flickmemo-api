@@ -6,7 +6,5 @@ FactoryBot.define do
     note { 'A nice review' }
     note_has_spoilers { false }
     favorite { false }
-    user_id { create(:user) }
-    movie_id { create(:movie) }
   end
 end

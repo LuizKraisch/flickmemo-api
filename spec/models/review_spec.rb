@@ -9,7 +9,9 @@ RSpec.describe Review, type: :model do
   end
 
   describe '#to_hash' do
-    let(:review) { create(:review) }
+    let(:user) { create(:user) }
+    let(:movie) { create(:movie) }
+    let(:review) { create(:review, user:, movie:) }
     let(:expected_hash) do
       {
         uuid: review.uuid,
