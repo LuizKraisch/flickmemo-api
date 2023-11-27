@@ -40,5 +40,5 @@ jobs:
       - name: Add code coverage comment
         uses: aki77/simplecov-report-action@v1
         with:
-          failedThreshold: 50
-          token: ${{ secrets.GITHUB_TOKEN }}
+          failedThreshold: 65
+          token: ${{ secrets.PR_COMMENT_TOKEN }}
