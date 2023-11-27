@@ -19,3 +19,4 @@ init.sql
 !/tmp/storage/.keep
 
 /config/master.key
+/coverage/index.html
