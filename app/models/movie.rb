@@ -4,6 +4,7 @@ class Movie < ApplicationRecord
   has_many :reviews
 
   validates :external_id, presence: true
+  validates :title, presence: true
 
   def find_similar_movies(language)
     path = "movie/#{external_id}/similar"

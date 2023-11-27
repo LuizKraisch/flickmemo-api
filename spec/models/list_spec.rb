@@ -14,10 +14,7 @@ RSpec.describe List, type: :model do
 
     context 'list type enum' do
       it 'defines the list_type enum with the expected values' do
-        expect(List.list_types).to eq({
-                                        'watched' => 'watched',
-                                        'watchlist' => 'watchlist'
-                                      })
+        expect(List.list_types).to eq({ 'watched' => 'watched', 'watchlist' => 'watchlist' })
       end
     end
   end
