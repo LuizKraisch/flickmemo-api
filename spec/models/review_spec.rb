@@ -24,7 +24,7 @@ RSpec.describe Review, type: :model do
     end
 
     it 'return the review as a hash' do
-      expect(review.to_hash).to eq(:expected_hash)
+      expect(review.to_hash).to eq(expected_hash)
     end
   end
 end
