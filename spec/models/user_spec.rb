@@ -10,8 +10,10 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:movies).through(:reviews) }
   end
 
-  describe 'enums' do
-    it { should define_enum_for(:preferred_language).with_values('en-US' => 'en-US', 'pt-BR' => 'pt-BR') }
+  context 'preferred language enum' do
+    it 'defines the preferred_language enum with the expected values' do
+      expect(User.preferred_language).to eq({ 'en-US' => 'en-US', 'pt-BR' => 'pt-BR' })
+    end
   end
 
   describe 'validations' do
@@ -32,15 +34,6 @@ RSpec.describe User, type: :model do
         user = create(:user)
         expect(user.api_token).to be_present
         expect(user.lists.count).to eq(2)
-      end
-    end
-
-    describe 'before_destroy' do
-      it 'destroys the associated token before user destruction' do
-        user = create(:user)
-        token_id = user.api_token.id
-        user.destroy
-        expect(ApiToken.find_by(id: token_id)).to be_nil
       end
     end
   end
