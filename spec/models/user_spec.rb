@@ -12,7 +12,7 @@ RSpec.describe User, type: :model do
 
   context 'preferred language enum' do
     it 'defines the preferred_language enum with the expected values' do
-      expect(User.preferred_language).to eq({ 'en-US' => 'en-US', 'pt-BR' => 'pt-BR' })
+      expect(User.preferred_languages).to eq({ 'en-US' => 'en-US', 'pt-BR' => 'pt-BR' })
     end
   end
 
@@ -42,7 +42,7 @@ RSpec.describe User, type: :model do
     describe '#recent_movies' do
       it 'returns recent movies from the watched list' do
         user = create(:user)
-        watched_list = create(:list, user:, list_type: 'watched')
+        watched_list = user.lists.find_by(list_type: 'watched')
         movie1 = create(:movie)
         movie2 = create(:movie)
         watched_list.movies << [movie1, movie2]
@@ -59,7 +59,7 @@ RSpec.describe User, type: :model do
     describe '#watchlist_movies' do
       it 'returns movies from the watchlist' do
         user = create(:user)
-        watchlist = create(:list, user:, list_type: 'watchlist')
+        watchlist = user.lists.find_by(list_type: 'watchlist')
         movie1 = create(:movie)
         movie2 = create(:movie)
         watchlist.movies << [movie1, movie2]
