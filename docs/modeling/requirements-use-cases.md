@@ -36,7 +36,7 @@ Here are some requirements that are being used to create the app:
 #### Non-Functional
  - The mobile app should be easy to use, quick to navigate, and simple to exhibit the data;
  - The mobile app should have loaders and skeletons through all the views;
- - The mobile app should work for both mobile systems (iOS and Android);
+ - The mobile app should work on mobile systems (Android initially);
  - The mobile app should provide clear and concise instructions for adding movies to a list and writing reviews;
  - The mobile app should adapt to regional content and preferences, such as displaying movie titles and descriptions in the user's preferred language (English and Portuguese);
  - The API infrastructure should be designed to handle an increasing number of users, movies, and reviews without significant performance degradation.
