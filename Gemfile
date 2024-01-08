@@ -11,7 +11,7 @@ gem 'dotenv-rails', groups: %i[development test]
 
 gem 'pg', '~> 1.1'
 
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.6'
 
 gem 'jbuilder'
 
